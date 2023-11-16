@@ -1,0 +1,97 @@
+<mat-sidenav-container id="sidenav-container" (contextmenu)="openMainContextMenu($event)">
+  <mat-sidenav class="mainContextMenu-triggerAllowed" opened={{sidenavOpened}} mode="side">
+    <cdk-accordion multi>
+      <parent-tab
+        tabName="Tables"
+        [parentTabId]="TABLE_TAB_ID"
+        [tabs]="tableTabs"
+        [(currentParentTabId)]="currentParentTabId"
+        [(currentTabNum)]="currentTabNum"
+        [newTab]="getNewTableTab()"
+        [tabOpen]="true">
+      </parent-tab>
+
+      <parent-tab
+        tabName="Details"
+        [parentTabId]="DETAIL_TAB_ID"
+        [tabs]="detailTabs"
+        [(currentParentTabId)]="currentParentTabId"
+        [(currentTabNum)]="currentTabNum"
+        [(tabOpen)]="detailTabOpen"
+        (openSearchDialogReq)="openGetBoopDialog()">     
+      </parent-tab>
+
+      <parent-tab
+        tabName="Other"
+        [parentTabId]="OTHER_TAB_ID"
+        [tabs]="otherTabs"
+        [(currentParentTabId)]="currentParentTabId"
+        [(currentTabNum)]="currentTabNum"
+        [newTab]="getNewOtherTab()">
+      </parent-tab>
+    </cdk-accordion>
+  </mat-sidenav>
+  
+  <!-- TODO: better way to toggle between sidenav content (switch?) -->
+  <!-- TODO: simplify ngIf... maybe handle currentParentTabNum when tab deleted -->
+  <mat-sidenav-content class="mainContextMenu-triggerAllowed">
+    <boop-list *ngIf="currentParentTabId === TABLE_TAB_ID && tableTabs.length"
+      [tabNum]="currentTabNum"
+      [(searchValue)]="tableTabs[currentTabNum].searchValue"
+      [pageSize]="tableTabs[currentTabNum].pageSize"
+      [pageIndex]="tableTabs[currentTabNum].pageIndex"
+      [sortActive]="tableTabs[currentTabNum].sortActive"
+      [sortDirection]="tableTabs[currentTabNum].sortDirection"
+      (changeResultsLength)="changeResultsLength($event)"
+      (changePaginator)="changePaginator($event)"
+      (changeSort)="changeSort($event)"
+      (clearSearchValueReq)="clearSearchValue($event)"
+      (openDetailTabReq)="openDetailTab($event)">
+    </boop-list>
+
+    <boop-details *ngIf="currentParentTabId === DETAIL_TAB_ID && detailTabs.length"
+      [boop]="detailTabs[currentTabNum].boop">
+    </boop-details>
+
+    <div *ngIf="currentParentTabId === OTHER_TAB_ID && otherTabs.length">
+      {{otherTabs[currentTabNum].toString()}}
+    </div>
+
+    <div class="contextMenuPos"
+      [style.left.px]="mouseTopLeftPosX"
+      [style.top.px]="mouseTopLeftPosY"
+      [matMenuTriggerFor]="mainContextMenu">
+    </div>
+
+    <mat-menu #mainContextMenu>
+      <button mat-menu-item [matMenuTriggerFor]="tabContextMenu" disableRipple>
+        Tab
+      </button>
+
+      <button mat-menu-item [matMenuTriggerFor]="viewsSubMenu" disableRipple>
+        View
+      </button>
+    </mat-menu>
+
+    <mat-menu #tabContextMenu="matMenu" parentMenu="mainContextMenu">
+      <ng-template matMenuContent let-tabNum="tabNum">
+        <button mat-menu-item (click)="openRenameTabDialog(tabNum)">
+          <mat-icon matIconPrefix fontIcon="edit"></mat-icon>
+          <span>Rename</span>
+        </button>
+
+        <button mat-menu-item (click)="closeTab(tabNum)">
+          <mat-icon matIconPrefix>close</mat-icon>
+          <span>Close</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+
+    <mat-menu #viewsSubMenu parentMenu="mainContextMenu">
+      <button mat-menu-item (click)="sidenavOpened = !sidenavOpened">
+        <mat-icon matIconPrefix [fontIcon]="sidenavOpened ? 'check' : ''"></mat-icon>
+        <span>Sidebar</span>
+      </button>
+    </mat-menu>
+  </mat-sidenav-content>
+</mat-sidenav-container>

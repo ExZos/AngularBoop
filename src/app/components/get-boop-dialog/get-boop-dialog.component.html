@@ -1,0 +1,34 @@
+<div id="getBoopDialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div class="getBoopDialogDragHandle" cdkDragHandle></div>
+
+    <div mat-dialog-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Boop ID</mat-label>
+
+            <input id="boopIdInput" matInput type="number" [(ngModel)]="id" [disabled]="!loaded"
+                (ngModelChange)="idError = false" (keyup.enter)="id > 0 && getBoop()">
+
+            <mat-hint align="start" *ngIf="idError">
+                <mat-icon>error</mat-icon>
+                <span>ID not found</span>
+            </mat-hint>
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions align="center">
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+
+        <ng-template [ngIf]="loaded" [ngIfElse]="loading">
+            <button mat-raised-button color="primary" [disabled]="!(id > 0)" 
+                (click)="getBoop()">
+                Get
+            </button>
+        </ng-template>
+
+        <ng-template #loading>
+            <button mat-raised-button disabled>
+                <mat-spinner diameter="25"></mat-spinner>
+            </button>
+        </ng-template>
+    </div>
+</div>

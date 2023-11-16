@@ -1,1 +1,33 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* 
+    Global styles to bypass Anglar Material's encapsulation 
+*/
+
+/* Sidenav parent tab */
+#sidenav-container button.activeSidenavParentTab span.mdc-list-item__primary-text {
+    color: white;
+}
+
+/* Context menus */
+.cdk-overlay-container .mat-mdc-menu-content {
+    padding: 0.35em 0;
+}
+
+/* Rename tab dialog */
+#renameTabDialog div.mat-mdc-form-field-subscript-wrapper {
+    display: none;
+}
+
+/* Tab tooltip */
+.tabTooltip {
+    white-space: pre-line;
+}
+
+/* Search input */
+#searchInputContainer div.mat-mdc-text-field-wrapper {
+    cursor: text;
+}

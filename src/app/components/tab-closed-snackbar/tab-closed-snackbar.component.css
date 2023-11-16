@@ -1,0 +1,15 @@
+#tabClosedSnackbar {
+    display: flex;
+}
+
+#tabClosedSnackbar span.tabClosedSnackbarTabName {
+    text-decoration: underline;
+}
+
+#tabClosedSnackbar button.tabClosedSnackbarAction {
+    font-weight: bold;
+}
+
+#tabClosedSnackbar button.tabClosedSnackbarAction:hover {
+    text-decoration: underline;
+}

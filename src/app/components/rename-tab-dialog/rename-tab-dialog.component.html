@@ -1,0 +1,20 @@
+<div id="renameTabDialog" cdkDrag cdkDragRootElement=".cdk-overlay-pane">
+    <div class="renameTabDialogDragHandle" cdkDragHandle></div>
+
+    <div mat-dialog-content>
+        <mat-form-field appearance="outline">
+            <mat-label>Tab name</mat-label>
+            <input id="renameTabInput" matInput type="text" [(ngModel)]="tabName"
+                (keyup.enter)="tabName.trim() && dialogRef.close(tabName.trim())">
+        </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions align="center">
+        <button mat-raised-button mat-dialog-close>Cancel</button>
+        
+        <button mat-raised-button color="primary" mat-dialog-close
+            [mat-dialog-close]="tabName" disabled={{!tabName.trim()}}>
+            Rename
+        </button>
+    </div>
+</div>

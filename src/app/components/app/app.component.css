@@ -1,0 +1,19 @@
+/* Sidenav */
+#sidenav-container {
+  height: 100%;
+}
+
+#sidenav-container mat-sidenav.mat-sidenav {
+  width: 10%;
+  background-color: #FAFAFA;
+  border: 0;
+}
+
+#sidenav-container mat-sidenav-content.mat-sidenav-content {
+  padding: 1em;
+}
+
+#sidenav-container div.contextMenuPos {
+  visibility: hidden;
+  position: fixed;
+}

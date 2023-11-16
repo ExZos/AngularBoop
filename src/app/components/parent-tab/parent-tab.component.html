@@ -1,0 +1,64 @@
+<!-- TODO: fix visual bug with tooltip after a drop (also in non-subcomponent version) -->
+<cdk-accordion-item id="sidenavTab-container" #parentTabAccordion="cdkAccordionItem" 
+  [expanded]="tabOpen" (opened)="changeTabOpen(true)" (closed)="changeTabOpen(false)">
+  <button mat-menu-item class="sidenavParentTab" 
+    [ngClass]="{'activeSidenavParentTab' : currentParentTabId === parentTabId && tabs.length}"
+    [matTooltip]="getParentTabTooltip()"
+    matTooltipPosition="after"
+    matTooltipClass="tabTooltip"
+    (click)="parentTabAccordion.toggle()">
+    {{tabName}}
+  </button>
+
+  <div [style.display]="parentTabAccordion.expanded ? '' : 'none'" cdkDropList
+    [cdkDropListDisabled]="tabs.length <= 1" [cdkDropListData]="tabs" (cdkDropListDropped)="moveTab($event)">
+    <div class="sidenavTabButton-container" *ngIf="newTab">
+      <button mat-icon-button (click)="addTab()">
+        <mat-icon>add</mat-icon>
+      </button>
+    </div>
+
+    <div class="sidenavTabButton-container" *ngIf="openSearchDialogReq.observed">
+      <button mat-icon-button (click)="openSearchDialog()">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+
+    <div *ngFor="let tab of tabs; index as i" class="sidenavTab" 
+      [ngClass]="{'activeSidenavTab' : currentParentTabId === parentTabId && i === currentTabNum,
+        'activeSidenavTabContextMenu' : activeContextMenuTabNum === i}"
+      cdkDrag
+      cdkDragPreviewClass="sidenavTab-dragPreview"
+      [matTooltip]="getTabTooltip(i)"
+      matTooltipPosition="after"
+      matTooltipClass="tabTooltip"
+      (contextmenu)="openContextMenu($event, i)"
+      (click)="changeTab(i)">
+      <div class="sidenavTab-dragPlaceholder" *cdkDragPlaceholder></div>
+
+      <div class="innerSidenavTab">
+        {{tab.getLabel()}}
+      </div>
+    </div>
+    
+    <div class="contextMenuPos"
+      [style.left.px]="mouseTopLeftPosX"
+      [style.top.px]="mouseTopLeftPosY"
+      [matMenuTriggerFor]="tableTabsContextMenu">
+    </div>
+
+    <mat-menu #tableTabsContextMenu="matMenu">
+      <ng-template matMenuContent let-tabNum="tabNum">
+        <button mat-menu-item (click)="openRenameTabDialog(tabNum)">
+          <mat-icon matIconPrefix fontIcon="edit"></mat-icon>
+          <span>Rename</span>
+        </button>
+
+        <button mat-menu-item (click)="closeTab(tabNum)">
+          <mat-icon matIconPrefix>close</mat-icon>
+          <span>Close</span>
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+</cdk-accordion-item>

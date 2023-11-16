@@ -1,0 +1,33 @@
+#getBoopDialog div.mat-mdc-dialog-content {
+    padding-bottom: 0;
+}
+
+#getBoopDialog div.getBoopDialogDragHandle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#getBoopDialog div.mat-mdc-dialog-content {
+    overflow: hidden;
+}
+
+#getBoopDialog mat-label {
+    padding-right: 0.5em;
+    font-weight: bold;
+}
+
+#getBoopDialog input#boopIdInput {
+    font-size: 1.25em;
+    text-align: center;
+}
+
+#getBoopDialog mat-hint {
+    color: red;
+    font-weight: bold;
+}
+
+#getBoopDialog mat-hint mat-icon {
+    vertical-align: bottom;
+    margin-right: 0.55em;
+}

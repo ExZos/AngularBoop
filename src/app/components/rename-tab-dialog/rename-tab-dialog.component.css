@@ -1,0 +1,19 @@
+#renameTabDialog div.mat-mdc-dialog-content {
+    padding-bottom: 0;
+}
+
+#renameTabDialog div.renameTabDialogDragHandle {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+#renameTabDialog mat-label {
+    margin-right: 0.55em;
+    font-weight: bold;
+}
+
+#renameTabDialog input#renameTabInput {
+    font-size: 1.25em;
+    text-align: center;
+}

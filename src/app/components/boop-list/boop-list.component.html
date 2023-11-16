@@ -1,0 +1,84 @@
+<div id="boopList-container" class="mainContextMenu-triggerAllowed">
+  <div id="searchInput-container">
+    <div>
+      <mat-form-field appearance="outline">
+        <input #searchInput id="searchInput" matInput type="text" [(ngModel)]="searchValue" 
+          (keyup.enter)="searchInput.blur()"
+          (blur)="changeSearchValue()">
+
+        <mat-icon matIconPrefix>search</mat-icon>
+
+        <button matSuffix mat-icon-button [disabled]="!searchValue" (click)="clearSearchValue()">
+          <mat-icon *ngIf="searchValue" color="red">close</mat-icon>
+        </button>
+      </mat-form-field>
+
+      <ng-template [ngIf]="loaded" [ngIfElse]="loading">
+        <button class="refreshButton" mat-icon-button (click)="getBoopList()">
+          <mat-icon>refresh</mat-icon>
+        </button>
+      </ng-template>
+
+      <ng-template #loading>
+        <button class="loadingIndicator" mat-icon-button
+          matTooltip="Loading..." matTooltipPosition="after">
+          <mat-spinner diameter="25"></mat-spinner>
+        </button>
+      </ng-template>
+    </div>
+  </div>
+
+  <div id="boopTable-container" class="mat-elevation-z3">
+    <table mat-table [dataSource]="dataSource" matSort (matSortChange)="sortChange($event)" 
+      [matSortActive]="sortActive" [matSortDirection]="sortDirection" matSortDisableClear>
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header arrowPosition="before" matRipple>ID</th>
+        <td mat-cell *matCellDef="let element">{{element.id}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matRipple>Description</th>
+        <td mat-cell *matCellDef="let element">{{element.description}}</td>
+      </ng-container>
+
+      <ng-container matColumnDef="lastModified">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header matRipple>Last Modified</th>
+        <td mat-cell *matCellDef="let element">{{element.lastModified | date: 'dd/MM/yyyy hh:mm a'}}</td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky:true" class="boopTable-headerRow"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{'activeBoopContextMenu' : activeContextMenuBoopId === row.id}"
+        (contextmenu)="openContextMenu($event, row)">
+      </tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell noDataRow" [colSpan]="displayedColumns.length">
+          No results for <span>{{searchValue}}</span>
+        </td>
+      </tr>
+    </table>
+
+    <div class="contextMenuPos"
+      [style.left.px]="mouseTopLeftPosX"
+      [style.top.px]="mouseTopLeftPosY"
+      [matMenuTriggerFor]="boopContextMenu">
+    </div>
+
+    <mat-menu #boopContextMenu>
+      <ng-template matMenuContent let-boop="boop">
+        <button mat-menu-item (click)="openDetailTab(boop)">
+          Details
+        </button>
+      </ng-template>
+    </mat-menu>
+  </div>
+
+  <mat-paginator id="boopPaginator-container" class="mat-elevation-z2"
+    (page)="paginatorChange($event)"
+    [length]="resultsLength" 
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="pageSizeOptions">
+  </mat-paginator>
+</div>

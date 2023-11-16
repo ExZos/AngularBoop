@@ -1,0 +1,65 @@
+#boopList-container {
+  display: block;
+  height: 100%;
+}
+
+/* Search */
+#searchInput-container {
+  height: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#searchInput-container input#searchInput {
+  font-size: 1.25em;
+}
+
+#searchInput-container button.loadingIndicator,
+#searchInput-container button.refreshButton {
+  vertical-align: sub;
+  margin-left: 0.25em;
+}
+
+/* Table */
+#boopTable-container {
+  max-height: 75%;
+  overflow-y: auto;
+}
+
+#boopTable-container tr.boopTable-headerRow {
+  cursor: pointer;
+}
+
+#boopTable-container tr.mat-mdc-row:hover,
+#boopTable-container tr.mat-mdc-row.activeBoopContextMenu {
+  background-color: #E6E6E6; /* rgba(0, 0, 0, 0.1) */ 
+}
+
+#boopTable-container td.mat-column-id {
+  text-align: right;
+}
+
+#boopTable-container td.mat-column-lastModified {
+  font-style: italic;
+  width: fit-content;
+}
+
+#boopTable-container tr.mat-row td.mat-cell.noDataRow {
+  text-align: center;
+  padding: 1em 0;
+}
+
+#boopTable-container tr.mat-row td.mat-cell.noDataRow span {
+  font-style: italic;
+}
+
+#boopTable-container div.contextMenuPos {
+  visibility: hidden;
+  position: fixed;
+}
+
+/* Paginator */
+#boopPaginator-container {
+  max-height: 10%;
+}

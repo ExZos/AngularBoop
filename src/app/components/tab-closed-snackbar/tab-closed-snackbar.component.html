@@ -1,0 +1,15 @@
+<div id="tabClosedSnackbar">
+    <span matSnackBarLabel>
+        <span>Tab </span>
+        <span class="tabClosedSnackbarTabName">{{tabName}}</span>
+        <span> closed</span>
+    </span>
+
+    <span matSnackBarActions>
+        <button mat-button matSnackBarAction class="tabClosedSnackbarAction"
+            (click)="this.snackBarRef.dismissWithAction()">
+            <mat-icon matIconPrefix>undo</mat-icon>
+            <span>UNDO</span>
+        </button>
+    </span>
+</div>
